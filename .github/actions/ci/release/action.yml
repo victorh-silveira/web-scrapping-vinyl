@@ -1,0 +1,30 @@
+name: Semantic Release
+description: Executa Semantic Release usando linters/releaserc.json
+
+inputs:
+  github_token:
+    description: Token GitHub para criacao de tags e releases
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+
+    - name: Executar Semantic Release
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        npx --yes \
+          -p semantic-release \
+          -p @semantic-release/commit-analyzer \
+          -p @semantic-release/release-notes-generator \
+          -p @semantic-release/changelog \
+          -p @semantic-release/git \
+          -p @semantic-release/github \
+          -p conventional-changelog-conventionalcommits \
+          semantic-release --extends ./linters/releaserc.json

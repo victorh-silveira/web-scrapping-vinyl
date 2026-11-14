@@ -1,0 +1,90 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vinyl-scraper"
+version = "0.1.0"
+description = "Smart Amazon BR Vinyl WebScraper with DDD, TDD, SOLID, and Clean Architecture"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "lxml>=5.3.0",
+    "playwright>=1.49.0",
+    "rich>=13.9.4",
+    "typer>=0.15.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "bandit>=1.8.3",
+    "interrogate>=1.7.0",
+    "mypy>=1.14.1",
+    "pip-audit>=2.8.0",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pyyaml>=6.0.2",
+    "ruff>=0.9.1",
+    "vulture>=2.14",
+    "yamllint>=1.35.1",
+]
+
+[project.scripts]
+vinyl-scraper = "vinyl_scraper.presentation.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vinyl_scraper"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra -q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+mypy_path = "src"
+packages = ["vinyl_scraper"]
+
+[[tool.mypy.overrides]]
+module = ["bs4", "bs4.*"]
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101", "B311"]
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+fail-under = 95
+exclude = ["tests", ".venv", "build", "dist"]
+
+[tool.vulture]
+min_confidence = 80
+paths = ["src", ".vulture_whitelist.py"]
+exclude = [".venv", "tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/vinyl_scraper"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "\\.\\.\\.",
+]

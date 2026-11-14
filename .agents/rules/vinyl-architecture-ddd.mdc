@@ -1,0 +1,8 @@
+---
+description: Fronteiras de camadas DDD e Clean Architecture
+alwaysApply: true
+---
+
+- `domain/` nao importa `application/`, `infrastructure/` ou `presentation/`.
+- `application/` nao importa `infrastructure/` ou `presentation/`.
+- Toda integracao externa e definida via `typing.Protocol` em `domain/ports.py`.

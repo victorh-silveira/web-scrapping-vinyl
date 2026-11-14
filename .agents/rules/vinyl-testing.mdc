@@ -1,0 +1,7 @@
+---
+description: Regras de TDD e cobertura 100% de branches
+alwaysApply: true
+---
+
+- Novas regras de negocio nascem com testes unitarios em `tests/unit/` antes da implementacao.
+- O gate `clean_workspace.py --stage test --coverage-fail-under 100` deve passar com 100% de cobertura.

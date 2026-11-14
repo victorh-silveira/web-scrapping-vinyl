@@ -1,0 +1,7 @@
+---
+description: Doutrina etica e anti-bot do agente
+alwaysApply: true
+---
+
+- Nunca tentar resolver, simular ou burlar CAPTCHAs ou desafios anti-bot da Amazon BR.
+- Ao detectar bloqueio, lancar `ScraperBlockedError` e preservar os dados ja coletados.

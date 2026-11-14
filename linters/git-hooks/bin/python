@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+PY="$(bash "$(dirname "$0")/resolve_venv_python.sh")"
+exec "$PY" "$@"

@@ -1,0 +1,66 @@
+minimum_pre_commit_version: "3.5.0"
+fail_fast: true
+
+default_language_version:
+  python: python3.13
+
+repos:
+  - repo: local
+    hooks:
+      - id: commitlint
+        name: Commitlint (Conventional Commits)
+        entry: >-
+          npx --yes -p @commitlint/cli -p @commitlint/config-conventional
+          commitlint --config linters/commitlint.config.mjs --edit
+        language: system
+        stages: [commit-msg]
+
+      - id: python-lint
+        name: Python | Lint
+        entry: bash linters/git-hooks/bin/python scripts/operations/clean_workspace.py --area python --stage lint
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit-msg]
+
+      - id: python-validate
+        name: Python | Validate
+        entry: bash linters/git-hooks/bin/python scripts/operations/clean_workspace.py --area python --stage validate
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit-msg]
+
+      - id: python-security
+        name: Python | Seguranca
+        entry: bash linters/git-hooks/bin/python scripts/operations/clean_workspace.py --area python --stage security
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit-msg]
+
+      - id: python-test
+        name: Python | Testes
+        entry: >-
+          bash linters/git-hooks/bin/python scripts/operations/clean_workspace.py
+          --area python --stage test --coverage-fail-under 100
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit-msg]
+
+      - id: python-build
+        name: Python | Build
+        entry: bash linters/git-hooks/bin/python scripts/operations/clean_workspace.py --area python --stage build
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit-msg]
+
+      - id: cleanup
+        name: Limpeza (caches e artefatos locais)
+        entry: bash linters/git-hooks/bin/python scripts/operations/clean_workspace.py --area python --stage clean
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit-msg]

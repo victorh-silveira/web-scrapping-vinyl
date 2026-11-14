@@ -1,0 +1,7 @@
+---
+description: Pureza do nucleo de dominio e calculo financeiro
+alwaysApply: true
+---
+
+- `domain/` usa apenas stdlib (`dataclasses`, `decimal`, `datetime`, `statistics`).
+- Valores monetarios usam `Money` com `Decimal` e `ROUND_HALF_UP` (nunca `float`).

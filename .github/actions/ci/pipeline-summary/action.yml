@@ -1,0 +1,29 @@
+name: Pipeline Summary
+description: Publica resumo da execucao dos jobs no GitHub Step Summary
+
+inputs:
+  python:
+    required: true
+    type: string
+  workflows:
+    required: true
+    type: string
+  release:
+    required: true
+    type: string
+
+runs:
+  using: composite
+  steps:
+    - name: Escrever resumo
+      shell: bash
+      run: |
+        {
+          echo "## Resumo da Pipeline CI/CD"
+          echo ""
+          echo "| Job | Status |"
+          echo "|---|---|"
+          echo "| Python (Lint, Validate, Security, Test, Build) | ${{ inputs.python }} |"
+          echo "| Workflows & Pre-commit | ${{ inputs.workflows }} |"
+          echo "| Semantic Release | ${{ inputs.release }} |"
+        } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,11 @@
+title = "Gitleaks configuration for web-scrapping-vinyl"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist test fixtures and example files"
+paths = [
+  '''tests/fixtures/.*''',
+  '''data/vinyls\.example\.json''',
+]

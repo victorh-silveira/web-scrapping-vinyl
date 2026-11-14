@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/**"
+      - ".pre-commit-config.yaml"
+      - ".yamllint.yaml"
+      - "linters/**"
+      - "Makefile"
+      - "README.md"
+      - "docs/**"
+      - "pyproject.toml"
+      - "scripts/**"
+      - "src/**"
+      - "tests/**"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: CI - Python (Bidirecional Pre-commit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Obter codigo fonte
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup Python e Dependencias
+        uses: ./.github/actions/ci/setup-python
+
+      - name: Preparar PATH local
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Cache Gitleaks
+        id: cache-gitleaks
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin/gitleaks
+          key: gitleaks-8.24.2-linux-x64
+
+      - name: Instalar Gitleaks
+        if: steps.cache-gitleaks.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          GITLEAKS_VERSION="8.24.2"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp
+          mv /tmp/gitleaks "$HOME/.local/bin/gitleaks"
+          chmod +x "$HOME/.local/bin/gitleaks"
+
+      - name: Python | Lint
+        shell: bash
+        run: python scripts/operations/clean_workspace.py --area python --stage lint
+
+      - name: Python | Validate
+        shell: bash
+        run: python scripts/operations/clean_workspace.py --area python --stage validate
+
+      - name: Python | Seguranca
+        shell: bash
+        run: python scripts/operations/clean_workspace.py --area python --stage security
+
+      - name: Python | Testes
+        shell: bash
+        run: python scripts/operations/clean_workspace.py --area python --stage test --coverage-fail-under 100
+
+      - name: Python | Build
+        shell: bash
+        run: python scripts/operations/clean_workspace.py --area python --stage build
+
+  workflows:
+    name: CI - Workflows e Pre-commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obter codigo fonte
+        uses: actions/checkout@v4
+      - name: Validar Pre-commit e Workflows
+        uses: ./.github/actions/ci/workflows
+
+  release:
+    name: CI - Release
+    needs: [python, workflows]
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Obter codigo fonte
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Release | Semantic
+        uses: ./.github/actions/ci/release
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  pipeline-summary:
+    name: CI - Resumo
+    needs: [python, workflows, release]
+    if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Resumo | Pipeline
+        uses: ./.github/actions/ci/pipeline-summary
+        with:
+          python: ${{ needs.python.result }}
+          workflows: ${{ needs.workflows.result }}
+          release: ${{ needs.release.result }}

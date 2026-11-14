@@ -1,0 +1,90 @@
+{
+  "black_friday_window": {
+    "start": "2026-11-20",
+    "end": "2026-11-30",
+    "pre_bf_days": 30
+  },
+  "vinyls": [
+    { "genre": "Country", "artist": "Colter Wall", "album": "Colter Wall" },
+    { "genre": "Country", "artist": "George Strait", "album": "Pure Country" },
+    { "genre": "Country", "artist": "Tyler Childers", "album": "Purgatory" },
+    { "genre": "Country", "artist": "Chris Stapleton", "album": "Traveller" },
+    { "genre": "Country", "artist": "Shania Twain", "album": "Come On Over" },
+    { "genre": "Country", "artist": "Tanya Tucker", "album": "While I'm Livin'" },
+    { "genre": "Country", "artist": "Dolly Parton", "album": "Jolene" },
+    { "genre": "Country", "artist": "The Judds", "album": "Why Not Me" },
+    { "genre": "Country", "artist": "Sturgill Simpson", "album": "Metamodern Sounds in Country Music" },
+
+    { "genre": "Blues", "artist": "Etta James", "album": "At Last!" },
+    { "genre": "Blues", "artist": "Nina Simone", "album": "I Put a Spell on You" },
+    { "genre": "Blues", "artist": "Elvis Presley", "album": "Elvis Presley" },
+    { "genre": "Blues", "artist": "Frank Sinatra", "album": "In the Wee Small Hours" },
+    { "genre": "Blues", "artist": "Paul Anka", "album": "Anka" },
+    { "genre": "Blues", "artist": "Roy Orbison", "album": "In Dreams" },
+    { "genre": "Blues", "artist": "Dinah Washington", "album": "What a Diff'rence a Day Makes!" },
+    { "genre": "Blues", "artist": "Leon Bridges", "album": "Coming Home" },
+
+    { "genre": "Rock", "artist": "Guns N' Roses", "album": "Appetite for Destruction" },
+    { "genre": "Rock", "artist": "Bon Jovi", "album": "Slippery When Wet" },
+    { "genre": "Rock", "artist": "Pink Floyd", "album": "The Dark Side of the Moon" },
+    { "genre": "Rock", "artist": "Red Hot Chili Peppers", "album": "Blood Sugar Sex Magik" },
+    { "genre": "Rock", "artist": "AC/DC", "album": "Power Up" },
+    { "genre": "Rock", "artist": "Linkin Park", "album": "From Zero" },
+    { "genre": "Rock", "artist": "Blondie", "album": "Parallel Lines" },
+    { "genre": "Rock", "artist": "Scorpions", "album": "Love at First Sting" },
+    { "genre": "Rock", "artist": "Whitesnake", "album": "1987", "aliases": ["Whitesnake"] },
+    { "genre": "Rock", "artist": "Pat Benatar", "album": "In the Heat of the Night" },
+    { "genre": "Rock", "artist": "Boston", "album": "Boston" },
+    { "genre": "Rock", "artist": "Chicago", "album": "Chicago II" },
+    { "genre": "Rock", "artist": "Journey", "album": "Escape" },
+    { "genre": "Rock", "artist": "The Pretty Reckless", "album": "Death by Rock and Roll" },
+    { "genre": "Rock", "artist": "The Warning", "album": "Keep Me Fed" },
+
+    { "genre": "Flashback", "artist": "Tears For Fears", "album": "Songs from the Big Chair" },
+    { "genre": "Flashback", "artist": "Alphaville", "album": "Forever Young" },
+    { "genre": "Flashback", "artist": "Bee Gees", "album": "Main Course" },
+    { "genre": "Flashback", "artist": "Michael Jackson", "album": "Thriller" },
+    { "genre": "Flashback", "artist": "Whitney Houston", "album": "Whitney Houston" },
+    { "genre": "Flashback", "artist": "Tina Turner", "album": "Private Dancer" },
+    {
+      "genre": "Flashback",
+      "artist": "Roxette",
+      "album": "Look Sharp!",
+      "aliases": ["Look Sharp", "Look Sharp 30th Anniversary Edition"]
+    },
+    { "genre": "Flashback", "artist": "The Bangles", "album": "Different Light" },
+    { "genre": "Flashback", "artist": "Depeche Mode", "album": "Violator" },
+
+    { "genre": "Pop", "artist": "Amy Winehouse", "album": "Back to Black" },
+    { "genre": "Pop", "artist": "Adele", "album": "21" },
+    { "genre": "Pop", "artist": "50 Cent", "album": "Get Rich or Die Tryin'" },
+    { "genre": "Pop", "artist": "Teddy Swims", "album": "I've Tried Everything but Therapy (Part 1)" },
+    { "genre": "Pop", "artist": "2Pac", "album": "All Eyez on Me" },
+    { "genre": "Pop", "artist": "Snoop Dogg", "album": "Doggystyle" },
+    { "genre": "Pop", "artist": "Kendrick Lamar", "album": "good kid, m.A.A.d city" },
+
+    { "genre": "Classical/Opera", "artist": "Andrea Bocelli", "album": "Romanza" },
+    { "genre": "Classical/Opera", "artist": "Édith Piaf", "album": "La Vie en Rose" },
+    {
+      "genre": "Classical/Opera",
+      "artist": "The Andrews Sisters",
+      "album": "This Is The Andrews Sisters",
+      "aliases": ["The Very Best Of The Andrews Sisters"]
+    },
+
+    { "genre": "Soundtracks/Compilações", "artist": "Lorne Balfe / Hans Zimmer", "album": "Top Gun: Maverick OST" },
+    { "genre": "Soundtracks/Compilações", "artist": "Various Artists", "album": "Dirty Dancing OST" },
+    { "genre": "Soundtracks/Compilações", "artist": "Various Artists", "album": "Sons of Anarchy OST" },
+    { "genre": "Soundtracks/Compilações", "artist": "Various Artists", "album": "Peaky Blinders OST" },
+    { "genre": "Soundtracks/Compilações", "artist": "Gustavo Santaolalla", "album": "The Last of Us OST" },
+    { "genre": "Soundtracks/Compilações", "artist": "Daisy Jones and The Six", "album": "Aurora" },
+    { "genre": "Soundtracks/Compilações", "artist": "Various Artists", "album": "Formula 1 OST" },
+    {
+      "genre": "Soundtracks/Compilações",
+      "artist": "Various Artists",
+      "album": "Red Dead Redemption 2",
+      "aliases": ["Music Of Red Dead Redemption Ii Ost", "Red Dead Redemption 2 Soundtrack"]
+    },
+    { "genre": "Soundtracks/Compilações", "artist": "Austin Wintory", "album": "Journey OST" }
+  ]
+}

@@ -1,0 +1,24 @@
+name: Workflows e Pre-commit
+description: Valida configuracoes YAML, pre-commit e workflows GitHub Actions
+
+runs:
+  using: composite
+  steps:
+    - name: Configurar Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version-file: ".python-version"
+
+    - name: Instalar pre-commit e yamllint
+      shell: bash
+      run: python -m pip install pre-commit yamllint pyyaml
+
+    - name: Validar configuracao pre-commit
+      shell: bash
+      run: |
+        pre-commit validate-config .pre-commit-config.yaml
+        pre-commit validate-config linters/pre-commit-config.yaml
+
+    - name: Lint YAML de workflows
+      shell: bash
+      run: yamllint -c .yamllint.yaml .github/ linters/pre-commit-config.yaml .pre-commit-config.yaml

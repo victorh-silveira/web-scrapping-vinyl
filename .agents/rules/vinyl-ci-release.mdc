@@ -1,0 +1,7 @@
+---
+description: Bidirecionalidade CI/CD, Pre-commit e Semantic Release
+alwaysApply: true
+---
+
+- Pre-commit (`linters/pre-commit-config.yaml`) e GitHub Actions (`.github/workflows/ci.yml`) executam exatamente os mesmos comandos via `scripts/operations/clean_workspace.py`.
+- Commits seguem Conventional Commits em PT-BR validados por `linters/commitlint.config.mjs`.
