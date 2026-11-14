@@ -128,7 +128,7 @@ jobs:
 
       - name: Limpeza (caches e artefatos locais)
         shell: bash
-        run: python scripts/operations/clean_workspace.py --area python --stage clean --light-clean
+        run: python scripts/operations/clean_workspace.py --area python --stage clean
 
   workflows:
     name: CI - Workflows
