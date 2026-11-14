@@ -27,5 +27,5 @@ runs:
           @semantic-release/changelog \
           @semantic-release/git \
           @semantic-release/github \
-          conventional-changelog-conventionalcommits
+          "conventional-changelog-conventionalcommits@^8.0.0"
         NODE_PATH="$SR_DIR/node_modules" "$SR_DIR/node_modules/.bin/semantic-release" --extends ./linters/releaserc.json
