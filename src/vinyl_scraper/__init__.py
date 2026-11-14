@@ -1,1 +1,1 @@
-"""Amazon BR Vinyl Smart Scraper package."""
+"""Pacote principal do Scraper Inteligente de Vinis da Amazon BR."""

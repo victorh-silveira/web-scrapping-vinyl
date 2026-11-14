@@ -1,1 +1,1 @@
-"""Domain layer package."""
+"""Pacote da camada de domínio."""

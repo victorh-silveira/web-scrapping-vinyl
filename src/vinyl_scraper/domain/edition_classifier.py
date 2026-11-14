@@ -1,4 +1,4 @@
-"""Domain Service: EditionClassifier for filtering non-vinyls and extracting edition info."""
+"""Serviço de Domínio: EditionClassifier para filtrar não-vinis e extrair dados de edição."""
 
 from __future__ import annotations
 
@@ -56,18 +56,18 @@ _ANNIVERSARY_PATTERN = re.compile(r"\b(\d{1,2})(th|st|nd|rd)\s+anniversary\b", r
 
 
 def normalize_text(text: str) -> str:
-    """Lowercase and strip diacritics for accent-insensitive matching."""
+    """Converte para minúsculas e remove diacríticos para comparação sem acentos."""
     nfkd = unicodedata.normalize("NFKD", text.lower())
     return "".join(ch for ch in nfkd if not unicodedata.combining(ch))
 
 
 class EditionClassifier:
-    """Classifies Amazon BR product titles to filter non-vinyls and extract edition info."""
+    """Classifica títulos da Amazon BR para filtrar não-vinis e extrair atributos da edição."""
 
     def classify(
         self, title: str, query: VinylQuery, format_hint: str | None = None
     ) -> EditionInfo:
-        """Determine whether `title` is a matching vinyl edition and extract its attributes."""
+        """Determina se `title` é uma edição em vinil correspondente e extrai seus atributos."""
         norm = normalize_text(title)
         norm_hint = normalize_text(format_hint) if format_hint else ""
         combined = f"{norm} {norm_hint}".strip()

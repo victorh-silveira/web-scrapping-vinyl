@@ -1,4 +1,4 @@
-"""Domain Entities and Aggregate Roots."""
+"""Entidades de domínio e raízes de agregação."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from vinyl_scraper.domain.value_objects import (
 
 @dataclass(frozen=True)
 class VinylQuery:
-    """Search specification for a vinyl record from the user's JSON catalog."""
+    """Especificação de busca de um disco de vinil a partir do catálogo JSON do usuário."""
 
     artist: str
     album: str
@@ -27,7 +27,7 @@ class VinylQuery:
 
     @property
     def search_term(self) -> str:
-        """Build a clean Amazon BR search query string."""
+        """Constrói uma string limpa de busca na Amazon BR."""
         sanitized = self.album.replace(":", " ").replace("!", " ").replace("?", " ")
         clean_album = " ".join(tok for tok in sanitized.split() if tok.lower() != "ost")
         artist_lower = self.artist.strip().lower()
@@ -38,7 +38,7 @@ class VinylQuery:
 
 @dataclass(frozen=True)
 class ScrapedEdition:
-    """Raw vinyl listing scraped from Amazon BR before historical enrichment."""
+    """Listagem bruta de vinil coletada da Amazon BR antes do enriquecimento histórico."""
 
     asin: ASIN
     title: str
@@ -55,7 +55,7 @@ class ScrapedEdition:
 
 @dataclass
 class VinylEdition:
-    """Aggregate root representing a specific vinyl edition/version of an album."""
+    """Raiz de agregação representando uma edição/versão específica de vinil de um álbum."""
 
     asin: ASIN
     title: str
@@ -74,7 +74,7 @@ class VinylEdition:
 
 @dataclass
 class AlbumSearchReport:
-    """Aggregated results containing all vinyl editions found for one album query."""
+    """Resultados agregados contendo todas as edições de vinil encontradas para um álbum."""
 
     query: VinylQuery
     editions: list[VinylEdition] = field(default_factory=list)
@@ -83,14 +83,14 @@ class AlbumSearchReport:
 
     @property
     def best_cost_benefit(self) -> VinylEdition | None:
-        """Return the edition with the highest cost-benefit score."""
+        """Retorna a edição com o maior score de custo-benefício."""
         if not self.editions:
             return None
         return max(self.editions, key=lambda e: e.cost_benefit.total_score)
 
     @property
     def best_promotion(self) -> VinylEdition | None:
-        """Return the edition with the largest real discount vs median/pre-BF."""
+        """Retorna a edição com o maior desconto real frente à mediana/Pré-BF."""
         if not self.editions:
             return None
         return max(

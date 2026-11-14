@@ -1,4 +1,4 @@
-"""Single Source of Truth (SSOT) Quality Gate Runner for local and CI execution."""
+"""Executor Single Source of Truth (SSOT) dos Quality Gates para execução local e CI."""
 
 from __future__ import annotations
 
@@ -42,7 +42,7 @@ def _dispatch(area: str, stage: str, coverage_fail_under: int) -> None:
 
 
 def main() -> None:
-    """Parse CLI arguments and execute the requested quality gate stage."""
+    """Analisa argumentos CLI e executa o estágio de quality gate solicitado."""
     parser = argparse.ArgumentParser(description="Vinyl Scraper Clean Workspace Quality Gate")
     parser.add_argument("--area", choices=AREAS, default="python")
     parser.add_argument("--stage", required=True, choices=STAGES)

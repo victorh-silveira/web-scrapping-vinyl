@@ -1,4 +1,4 @@
-"""Application Use Cases orchestrating Domain services and Ports."""
+"""Casos de uso da aplicação que orquestram serviços de domínio e portas."""
 
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ from vinyl_scraper.domain.value_objects import BlackFridayWindow, PriceSnapshot
 
 
 class ScrapeAndAnalyzeVinylsUseCase:
-    """Orchestrates vinyl scraping, history enrichment, analytics, and report export."""
+    """Orquestra coleta de vinis, enriquecimento histórico, análises e exportação de relatório."""
 
     def __init__(
         self,
@@ -50,7 +50,7 @@ class ScrapeAndAnalyzeVinylsUseCase:
         scrape: bool = True,
         on_progress: Callable[[int, int, VinylQuery, AlbumSearchReport | None], None] | None = None,
     ) -> RunAnalysisResult:
-        """Run the full pipeline (or offline analysis when `scrape=False`)."""
+        """Executa o pipeline completo (ou análise offline quando `scrape=False`)."""
         window, queries = self._catalog_reader.load()
         reports: list[AlbumSearchReport] = []
         total = len(queries)

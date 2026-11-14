@@ -1,4 +1,4 @@
-"""JSON report exporter adapter."""
+"""Adaptador exportador de relatório JSON."""
 
 from __future__ import annotations
 
@@ -71,13 +71,13 @@ def _serialize_edition(ed: VinylEdition, artist: str, album: str) -> dict[str, A
 
 
 class JsonReportExporter:
-    """Exports analyzed vinyl editions and top rankings to a structured JSON file."""
+    """Exporta edições de vinil analisadas e rankings principais para um JSON estruturado."""
 
     def __init__(self, output_path: str | Path = "output/report.json") -> None:
         self._output_path = Path(output_path)
 
     def export(self, reports: list[AlbumSearchReport], window: BlackFridayWindow) -> str:
-        """Write the full report to JSON and return the output file path."""
+        """Grava o relatório completo em JSON e retorna o caminho do arquivo de saída."""
         self._output_path.parent.mkdir(parents=True, exist_ok=True)
 
         all_serialized: list[dict[str, Any]] = []

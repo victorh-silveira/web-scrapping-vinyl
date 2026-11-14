@@ -1,4 +1,4 @@
-"""Default NullObject adapter for ExternalPriceHistoryPort."""
+"""Adaptador NullObject padrão para ExternalPriceHistoryPort."""
 
 from __future__ import annotations
 
@@ -6,8 +6,8 @@ from vinyl_scraper.domain.value_objects import ASIN, PriceSnapshot
 
 
 class NullExternalPriceHistory:
-    """Default no-op external price history adapter (ready to swap for Keepa API)."""
+    """Adaptador padrão sem operação para histórico externo (pronto para troca pela Keepa API)."""
 
     def fetch_history(self, asin: ASIN) -> list[PriceSnapshot]:
-        """Return an empty list when no external tracker is configured."""
+        """Retorna uma lista vazia quando nenhum rastreador externo está configurado."""
         return []

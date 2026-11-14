@@ -1,1 +1,1 @@
-"""Operations and quality gate scripts."""
+"""Scripts operacionais e quality gates."""

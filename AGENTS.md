@@ -6,9 +6,9 @@ Ponto de entrada canônico e Single Source of Truth (SSOT) para agentes de intel
 
 ## 1. Idioma e Ambiente Operacional
 
-- **Idioma Obrigatório**: Respostas, documentações técnicas e mensagens de commit redigidas exclusivamente em **PT-BR**.
+- **Idioma Obrigatório**: Respostas, documentações técnicas, docstrings Python e mensagens de commit redigidas exclusivamente em **PT-BR**.
 - **Sobriedade**: Proibido o uso de emojis em código-fonte, logs ou documentação técnica.
-- **Autoexplicabilidade**: Docstrings obrigatórias em módulos, classes e métodos públicos (validadas por `interrogate`).
+- **Autoexplicabilidade**: Docstrings obrigatórias em PT-BR em módulos, classes e métodos públicos (validadas por `interrogate`).
 
 ---
 

@@ -1,4 +1,4 @@
-"""Immutable Domain Value Objects."""
+"""Objetos de valor imutáveis do domínio."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ _TWO_PLACES = Decimal("0.01")
 
 @dataclass(frozen=True, order=True)
 class Money:
-    """Immutable monetary value in BRL (or explicit currency)."""
+    """Valor monetário imutável em BRL (ou moeda explícita)."""
 
     amount: Decimal
     currency: str = "BRL"
@@ -31,7 +31,7 @@ class Money:
 
     @classmethod
     def brl(cls, value: Decimal | str | int | float) -> Money:
-        """Create a BRL Money instance from a numeric or string value."""
+        """Cria uma instância de Money em BRL a partir de um valor numérico ou string."""
         try:
             dec = value if isinstance(value, Decimal) else Decimal(str(value))
         except InvalidOperation as exc:
@@ -39,7 +39,7 @@ class Money:
         return cls(amount=dec, currency="BRL")
 
     def discount_percentage_from(self, original: Money) -> Decimal:
-        """Return percentage discount relative to `original` (negative if higher)."""
+        """Retorna o desconto percentual em relação a `original` (negativo se maior)."""
         if original.amount <= Decimal("0"):
             return Decimal("0.00")
         diff = original.amount - self.amount
@@ -53,7 +53,7 @@ class Money:
 
 @dataclass(frozen=True)
 class ASIN:
-    """Amazon Standard Identification Number (10 alphanumeric chars)."""
+    """Amazon Standard Identification Number (10 caracteres alfanuméricos)."""
 
     value: str
 
@@ -65,7 +65,7 @@ class ASIN:
 
 
 class PriceWindowTag(StrEnum):
-    """Temporal classification for Black Friday price analysis."""
+    """Classificação temporal para análise de preços de Black Friday."""
 
     REGULAR = "regular"
     PRE_BLACK_FRIDAY = "pre_black_friday"
@@ -74,14 +74,14 @@ class PriceWindowTag(StrEnum):
 
 @dataclass(frozen=True)
 class BlackFridayWindow:
-    """Date range defining Black Friday and its preceding comparison window."""
+    """Intervalo de datas que define a Black Friday e a janela de comparação anterior."""
 
     start: date
     end: date
     pre_bf_days: int = 30
 
     def classify(self, timestamp: datetime) -> PriceWindowTag:
-        """Classify a timestamp into REGULAR, PRE_BLACK_FRIDAY, or BLACK_FRIDAY."""
+        """Classifica um timestamp em REGULAR, PRE_BLACK_FRIDAY ou BLACK_FRIDAY."""
         day = timestamp.date()
         if self.start <= day <= self.end:
             return PriceWindowTag.BLACK_FRIDAY
@@ -93,7 +93,7 @@ class BlackFridayWindow:
 
 @dataclass(frozen=True)
 class EditionInfo:
-    """Normalized vinyl edition attributes extracted from a product title."""
+    """Atributos normalizados de edição de vinil extraídos do título do produto."""
 
     is_vinyl: bool
     edition_label: str
@@ -108,7 +108,7 @@ class EditionInfo:
 
 @dataclass(frozen=True)
 class PriceSnapshot:
-    """Point-in-time price observation for a specific ASIN."""
+    """Observação pontual de preço para um ASIN específico."""
 
     asin: ASIN
     price: Money
@@ -121,7 +121,7 @@ class PriceSnapshot:
 
 @dataclass(frozen=True)
 class PriceStats:
-    """Descriptive statistics over historical price snapshots."""
+    """Estatísticas descritivas sobre snapshots históricos de preços."""
 
     min_price: Money
     max_price: Money
@@ -132,7 +132,7 @@ class PriceStats:
 
 @dataclass(frozen=True)
 class BlackFridayComparison:
-    """Comparison between Pre-Black Friday prices and Black Friday / current price."""
+    """Comparação entre preços Pré-Black Friday e preço de Black Friday / atual."""
 
     pre_bf_mean_price: Money | None
     pre_bf_last_price: Money | None
@@ -145,7 +145,7 @@ class BlackFridayComparison:
 
 @dataclass(frozen=True)
 class CostBenefitScore:
-    """Weighted cost-benefit score (0.0 to 100.0) with component breakdown."""
+    """Score ponderado de custo-benefício (0.0 a 100.0) com detalhamento por componente."""
 
     total_score: float
     discount_score: float

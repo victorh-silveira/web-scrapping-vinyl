@@ -1,20 +1,20 @@
-"""Domain exceptions for the vinyl scraper."""
+"""Exceções de domínio para o scraper de vinis."""
 
 
 class DomainError(Exception):
-    """Base exception for domain rule violations."""
+    """Exceção base para violações de regras de domínio."""
 
 
 class InvalidMoneyError(DomainError):
-    """Raised when a monetary value is invalid or negative."""
+    """Lançada quando um valor monetário é inválido ou negativo."""
 
 
 class InvalidAsinError(DomainError):
-    """Raised when an Amazon ASIN fails validation."""
+    """Lançada quando um ASIN da Amazon falha na validação."""
 
 
 class ScraperBlockedError(DomainError):
-    """Raised when Amazon BR presents a CAPTCHA or anti-bot block."""
+    """Lançada quando a Amazon BR apresenta CAPTCHA ou bloqueio anti-bot."""
 
     def __init__(self, query_label: str, reason: str = "CAPTCHA or anti-bot block") -> None:
         self.query_label = query_label

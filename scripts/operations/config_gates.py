@@ -1,4 +1,4 @@
-"""JSON and YAML lint/validation gates."""
+"""Gates de lint e validação para arquivos JSON e YAML."""
 
 from __future__ import annotations
 
@@ -32,12 +32,12 @@ def _iter_files(extensions: tuple[str, ...]) -> list[Path]:
 
 
 def stage_json_lint() -> None:
-    """Validate JSON syntax across repository files."""
+    """Valida a sintaxe JSON nos arquivos do repositório."""
     stage_json_validate()
 
 
 def stage_json_validate() -> None:
-    """Parse all JSON files in the repository to ensure valid syntax."""
+    """Faz o parsing de todos os arquivos JSON do repositório para garantir sintaxe válida."""
     print("\n>>> Executando: JSON Validate")
     violations: list[str] = []
     for path in _iter_files((".json",)):
@@ -50,7 +50,7 @@ def stage_json_validate() -> None:
 
 
 def stage_yaml_lint() -> None:
-    """Run yamllint on repository YAML files."""
+    """Executa o yamllint nos arquivos YAML do repositório."""
     yaml_files = [str(p.relative_to(REPO_ROOT)) for p in _iter_files((".yml", ".yaml"))]
     if not yaml_files:
         print("[OK] Nenhum arquivo YAML encontrado.")
@@ -59,7 +59,7 @@ def stage_yaml_lint() -> None:
 
 
 def stage_yaml_validate() -> None:
-    """Parse all YAML files using PyYAML safe_load."""
+    """Faz o parsing de todos os arquivos YAML usando PyYAML safe_load."""
     print("\n>>> Executando: YAML Validate")
     violations: list[str] = []
     for path in _iter_files((".yml", ".yaml")):

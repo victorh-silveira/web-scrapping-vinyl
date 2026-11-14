@@ -1,1 +1,1 @@
-"""JSON input/output adapters."""
+"""Adaptadores de entrada e saída JSON."""

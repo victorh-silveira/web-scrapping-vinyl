@@ -1,4 +1,4 @@
-"""Python quality, architecture, security, test, build, and clean gates."""
+"""Gates Python de qualidade, arquitetura, segurança, testes, build e limpeza."""
 
 from __future__ import annotations
 
@@ -35,7 +35,7 @@ def _layer_of_import(module_name: str) -> str | None:
 
 
 def stage_lint() -> None:
-    """Run Ruff lint/format, Interrogate docstrings, Vulture dead code, and YAML/JSON lint."""
+    """Executa Ruff lint/format, Interrogate docstrings, Vulture código morto e lint YAML/JSON."""
     run_tool("ruff", ["check", "--fix", "src", "tests", "scripts"], "Ruff Check (auto-fix)")
     run_tool("ruff", ["format", "--check", "src", "tests", "scripts"], "Ruff Format Check")
     run_tool("interrogate", ["-vv", "src"], "Interrogate Docstrings")
@@ -45,7 +45,7 @@ def stage_lint() -> None:
 
 
 def stage_layer_dependencies() -> None:
-    """Enforce Clean Architecture dependency direction via AST inspection."""
+    """Impõe a direção de dependências da Clean Architecture via inspeção AST."""
     print("\n>>> Executando: Verificacao de dependencias entre camadas (DDD/Clean)")
     violations: list[str] = []
     for path in SRC_ROOT.rglob("*.py"):
@@ -71,7 +71,7 @@ def stage_layer_dependencies() -> None:
 
 
 def stage_structure(max_lines: int = 300) -> None:
-    """Enforce maximum line count per Python source file."""
+    """Impõe o limite máximo de linhas por arquivo-fonte Python."""
     print(f"\n>>> Executando: Verificacao Estrutural (Max {max_lines} linhas)")
     violations: list[str] = []
     for path in SRC_ROOT.rglob("*.py"):
@@ -83,7 +83,7 @@ def stage_structure(max_lines: int = 300) -> None:
 
 
 def stage_validate() -> None:
-    """Run Mypy strict, layer AST gate, line ceiling, and YAML/JSON validation."""
+    """Executa Mypy strict, gate AST de camadas, teto de linhas e validação YAML/JSON."""
     run_tool("mypy", ["--config-file", "pyproject.toml"], "Mypy Strict")
     stage_layer_dependencies()
     stage_structure(max_lines=300)
@@ -92,7 +92,7 @@ def stage_validate() -> None:
 
 
 def stage_test(fail_under: int = 100) -> None:
-    """Run pytest with branch coverage enforcement."""
+    """Executa pytest com exigência de cobertura de branches."""
     run_tool("coverage", ["run", "--branch", "-m", "pytest"], "Pytest (branch coverage)")
     run_tool(
         "coverage",
@@ -102,7 +102,7 @@ def stage_test(fail_under: int = 100) -> None:
 
 
 def stage_security() -> None:
-    """Run Bandit SAST, pip-audit dependency scan, and Gitleaks secret scan."""
+    """Executa Bandit SAST, pip-audit de dependências e Gitleaks para segredos."""
     run_tool("bandit", ["-r", "src", "-c", "pyproject.toml"], "Bandit Security Scan")
     run_tool("pip_audit", [], "Pip-audit Vulnerability Scan")
     gitleaks = shutil.which("gitleaks")
@@ -117,7 +117,7 @@ def stage_security() -> None:
 
 
 def stage_build() -> None:
-    """Compile all Python sources to bytecode."""
+    """Compila todos os arquivos-fonte Python para bytecode."""
     print("\n>>> Executando: compileall")
     if not compileall.compile_dir(str(SRC_ROOT), quiet=1):
         fail(f"[ERRO] Falha no compileall: {SRC_ROOT}")
@@ -125,7 +125,7 @@ def stage_build() -> None:
 
 
 def stage_clean() -> None:
-    """Remove local caches, coverage artifacts, and temporary build directories."""
+    """Remove caches locais, artefatos de cobertura e diretórios temporários de build."""
     print("\n>>> Executando: Clean Workspace")
     cache_dirs = (".pytest_cache", ".mypy_cache", ".ruff_cache", "build", "dist", "htmlcov")
     for name in cache_dirs:
@@ -142,5 +142,5 @@ def stage_clean() -> None:
 
 
 def format_all() -> None:
-    """Helper to auto-format source files with Ruff."""
+    """Utilitário para autoformatar arquivos-fonte com o Ruff."""
     subprocess.run([sys.executable, "-m", "ruff", "format", "src", "tests", "scripts"], check=True)

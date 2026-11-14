@@ -1,1 +1,1 @@
-"""Infrastructure layer package."""
+"""Pacote da camada de infraestrutura."""

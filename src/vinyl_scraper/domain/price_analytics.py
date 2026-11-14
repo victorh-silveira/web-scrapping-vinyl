@@ -1,4 +1,4 @@
-"""Domain Service: PriceAnalyticsService for statistics, Black Friday, and cost-benefit."""
+"""Serviço de Domínio: PriceAnalyticsService para estatísticas, Black Friday e custo-benefício."""
 
 from __future__ import annotations
 
@@ -20,10 +20,10 @@ from vinyl_scraper.domain.value_objects import (
 
 
 class PriceAnalyticsService:
-    """Computes historical price statistics, Black Friday comparisons, and cost-benefit."""
+    """Calcula estatísticas históricas de preço, comparações de Black Friday e custo-benefício."""
 
     def compute_stats(self, snapshots: list[PriceSnapshot]) -> PriceStats:
-        """Compute min, max, mean, and median over price snapshots."""
+        """Calcula mínimo, máximo, média e mediana sobre os snapshots de preço."""
         if not snapshots:
             zero = Money.brl("0.00")
             return PriceStats(
@@ -51,7 +51,7 @@ class PriceAnalyticsService:
         stats: PriceStats,
         window: BlackFridayWindow,
     ) -> BlackFridayComparison:
-        """Compare Pre-Black Friday prices against Black Friday / current price."""
+        """Compara preços Pré-Black Friday com o preço de Black Friday / atual."""
         latest_day = max((s.captured_at.date() for s in snapshots), default=None)
         pre_bf_snaps = [
             s
@@ -127,7 +127,7 @@ class PriceAnalyticsService:
         rating: float | None,
         review_count: int,
     ) -> CostBenefitScore:
-        """Compute a 0..100 cost-benefit score balancing discount, median, edition, and trust."""
+        """Calcula score de custo-benefício (0 a 100) com desconto, mediana, edição e confiança."""
         pre_bf_pct = max(Decimal("0"), min(Decimal("60"), bf_comparison.discount_vs_pre_bf_pct))
         discount_score = float(pre_bf_pct / Decimal("60")) * 30.0
 

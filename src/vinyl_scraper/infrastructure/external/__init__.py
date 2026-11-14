@@ -1,1 +1,1 @@
-"""External price history provider adapters."""
+"""Adaptadores externos de histórico de preços."""

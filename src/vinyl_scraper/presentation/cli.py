@@ -1,4 +1,4 @@
-"""CLI entrypoint for Amazon BR Vinyl Smart Scraper."""
+"""Ponto de entrada CLI do Scraper Inteligente de Vinis na Amazon BR."""
 
 from __future__ import annotations
 

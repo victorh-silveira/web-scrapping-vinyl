@@ -1,4 +1,4 @@
-"""Playwright-based Amazon BR scraper adapter."""
+"""Adaptador de scraper da Amazon BR baseado em Playwright."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from vinyl_scraper.infrastructure.scrapers.amazon_br_parser import AmazonBrSearc
 
 
 class PlaywrightAmazonScraper:
-    """Scrapes Amazon BR search results using Playwright Chromium with polite delays."""
+    """Coleta buscas da Amazon BR usando Playwright Chromium com atrasos respeitosos."""
 
     def __init__(
         self,
@@ -30,7 +30,7 @@ class PlaywrightAmazonScraper:
         self._parser = parser or AmazonBrSearchParser()
 
     def search_vinyl_editions(self, query: VinylQuery, max_pages: int = 2) -> list[ScrapedEdition]:
-        """Fetch up to `max_pages` of Amazon BR search results for `query`."""
+        """Busca até `max_pages` páginas de resultados na Amazon BR para `query`."""
         all_editions: list[ScrapedEdition] = []
         encoded_q = quote_plus(query.search_term)
 

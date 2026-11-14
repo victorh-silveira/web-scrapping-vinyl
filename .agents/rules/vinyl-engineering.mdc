@@ -4,6 +4,6 @@ alwaysApply: true
 ---
 
 - Tipagem estrita (`mypy --strict`) em `src/vinyl_scraper/`.
-- Docstrings obrigatorias em modulos, classes e metodos publicos (`interrogate >= 95%`).
+- Docstrings obrigatorias em PT-BR em modulos, classes e metodos publicos (`interrogate >= 95%`).
 - Teto estrito de **300 linhas** por arquivo `.py` em `src/vinyl_scraper/`.
 - Proibido codigo morto (`vulture`) ou uso de `--no-verify`.

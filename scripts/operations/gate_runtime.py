@@ -1,4 +1,4 @@
-"""Runtime helpers for Clean Workspace quality gates."""
+"""Utilitários de execução para os quality gates do Clean Workspace."""
 
 from __future__ import annotations
 
@@ -20,13 +20,13 @@ AREA_STAGES: dict[str, tuple[str, ...]] = {
 
 
 def fail(message: str) -> None:
-    """Print an error message and abort with exit code 1."""
+    """Exibe uma mensagem de erro e aborta com código de saída 1."""
     print(message, file=sys.stderr)
     raise SystemExit(1)
 
 
 def exit_if_violations(header: str, violations: list[str]) -> None:
-    """Print violations and exit if the list is non-empty."""
+    """Exibe as violações e encerra caso a lista não esteja vazia."""
     if not violations:
         return
     print(f"\n[ERRO] {header}", file=sys.stderr)
@@ -36,12 +36,12 @@ def exit_if_violations(header: str, violations: list[str]) -> None:
 
 
 def use_repo_cwd() -> None:
-    """Ensure working directory is the repository root."""
+    """Garante que o diretório de trabalho seja a raiz do repositório."""
     os.chdir(REPO_ROOT)
 
 
 def run_command(cmd: list[str], label: str, cwd: Path | None = None) -> None:
-    """Execute a subprocess and fail fast on non-zero exit code."""
+    """Executa um subprocesso e falha imediatamente em código de saída diferente de zero."""
     print(f"\n>>> Executando: {label}")
     print(f"Command: {' '.join(cmd)}")
     result = subprocess.run(cmd, cwd=cwd or REPO_ROOT, check=False)
@@ -50,5 +50,5 @@ def run_command(cmd: list[str], label: str, cwd: Path | None = None) -> None:
 
 
 def run_tool(module: str, args: list[str], label: str) -> None:
-    """Execute a Python module tool using the active interpreter."""
+    """Executa uma ferramenta de módulo Python usando o interpretador ativo."""
     run_command([sys.executable, "-m", module, *args], label)

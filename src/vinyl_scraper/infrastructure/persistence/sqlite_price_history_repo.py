@@ -1,4 +1,4 @@
-"""SQLite repository for local vinyl price history snapshots."""
+"""Repositório SQLite para snapshots locais de histórico de preços de vinis."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from vinyl_scraper.domain.value_objects import ASIN, Money, PriceSnapshot
 
 
 class SqlitePriceHistoryRepository:
-    """Stores and queries timestamped price snapshots in SQLite."""
+    """Armazena e consulta snapshots de preço com timestamp em SQLite."""
 
     def __init__(self, db_path: str | Path = "data/price_history.db") -> None:
         if str(db_path) != ":memory:":
@@ -59,7 +59,7 @@ class SqlitePriceHistoryRepository:
         snapshots: list[PriceSnapshot],
         titles_by_asin: dict[str, tuple[str, str, str, str]],
     ) -> None:
-        """Persist new price snapshots and upsert edition metadata."""
+        """Persiste novos snapshots de preço e atualiza metadados das edições."""
         now_iso = datetime.now().isoformat()
         with self._conn:
             for asin_str, (title, artist, album, label) in titles_by_asin.items():
@@ -94,7 +94,7 @@ class SqlitePriceHistoryRepository:
                 )
 
     def get_history(self, asin: ASIN) -> list[PriceSnapshot]:
-        """Return all snapshots for `asin` sorted chronologically."""
+        """Retorna todos os snapshots de `asin` ordenados cronologicamente."""
         rows = self._conn.execute(
             """
             SELECT asin, price_brl, list_price_brl, captured_at, source, seller, is_prime
@@ -119,7 +119,7 @@ class SqlitePriceHistoryRepository:
         ]
 
     def get_editions_for_query(self, query: VinylQuery) -> list[ScrapedEdition]:
-        """Return the latest stored ScrapedEdition per ASIN matching `query`."""
+        """Retorna o ScrapedEdition mais recente armazenado por ASIN correspondente a `query`."""
         rows = self._conn.execute(
             """
             SELECT e.asin, e.title,
@@ -152,5 +152,5 @@ class SqlitePriceHistoryRepository:
         ]
 
     def close(self) -> None:
-        """Close the SQLite connection."""
+        """Fecha a conexão com o SQLite."""
         self._conn.close()

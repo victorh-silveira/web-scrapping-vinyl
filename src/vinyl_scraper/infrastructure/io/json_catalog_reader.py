@@ -1,4 +1,4 @@
-"""JSON catalog reader adapter."""
+"""Adaptador leitor de catálogo JSON."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from vinyl_scraper.domain.value_objects import BlackFridayWindow, Money
 
 
 class JsonCatalogReader:
-    """Loads BlackFridayWindow and VinylQuery items from a JSON file."""
+    """Carrega BlackFridayWindow e itens VinylQuery a partir de um arquivo JSON."""
 
     def __init__(
         self,
@@ -26,7 +26,7 @@ class JsonCatalogReader:
         self._pre_bf_days_override = pre_bf_days_override
 
     def load(self) -> tuple[BlackFridayWindow, list[VinylQuery]]:
-        """Parse the JSON catalog into domain objects."""
+        """Faz o parsing do catálogo JSON para objetos de domínio."""
         raw = json.loads(self._path.read_text(encoding="utf-8"))
 
         bf_cfg = raw.get("black_friday_window", {})

@@ -1,1 +1,1 @@
-"""Application layer package."""
+"""Pacote da camada de aplicação."""

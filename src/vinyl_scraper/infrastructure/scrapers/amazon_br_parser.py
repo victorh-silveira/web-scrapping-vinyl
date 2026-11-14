@@ -1,4 +1,4 @@
-"""Pure HTML parser for Amazon BR search results."""
+"""Parser HTML puro para resultados de busca da Amazon BR."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ _INT_RE = re.compile(r"[^\d]")
 
 
 def parse_brl_price(raw: str) -> Money | None:
-    """Parse Brazilian Real strings such as 'R$ 1.299,90' into Money."""
+    """Converte strings em Real brasileiro como 'R$ 1.299,90' para Money."""
     cleaned = _PRICE_CLEAN_RE.sub("", raw.strip())
     if not cleaned:
         return None
@@ -31,12 +31,12 @@ def parse_brl_price(raw: str) -> Money | None:
 
 
 class AmazonBrSearchParser:
-    """Parses Amazon BR search result HTML pages into ScrapedEdition objects."""
+    """Converte páginas HTML de busca da Amazon BR em objetos ScrapedEdition."""
 
     BASE_URL = "https://www.amazon.com.br"
 
     def is_captcha_page(self, html: str) -> bool:
-        """Detect Amazon CAPTCHA or anti-bot verification pages."""
+        """Detecta páginas de CAPTCHA ou verificação anti-bot da Amazon."""
         lower = html.lower()
         markers = (
             "/errors/validatecaptcha",
@@ -47,7 +47,7 @@ class AmazonBrSearchParser:
         return any(marker in lower for marker in markers)
 
     def parse_search_results(self, html: str, captured_at: datetime) -> list[ScrapedEdition]:
-        """Extract all valid product cards with prices from an Amazon BR search page."""
+        """Extrai todos os cards válidos com preço de uma página de busca da Amazon BR."""
         soup = BeautifulSoup(html, "lxml")
         cards = soup.select('div[data-component-type="s-search-result"][data-asin]')
         editions: list[ScrapedEdition] = []

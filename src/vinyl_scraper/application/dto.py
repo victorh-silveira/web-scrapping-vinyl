@@ -1,4 +1,4 @@
-"""Application layer Data Transfer Objects."""
+"""Objetos de transferência de dados (DTOs) da camada de aplicação."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from vinyl_scraper.domain.value_objects import BlackFridayWindow
 
 @dataclass(frozen=True)
 class RunAnalysisResult:
-    """Result returned by ScrapeAndAnalyzeVinylsUseCase."""
+    """Resultado retornado por ScrapeAndAnalyzeVinylsUseCase."""
 
     window: BlackFridayWindow
     reports: list[AlbumSearchReport]

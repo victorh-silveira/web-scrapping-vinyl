@@ -1,1 +1,1 @@
-"""Amazon BR scrapers and HTML parsers."""
+"""Scrapers e parsers HTML da Amazon BR."""

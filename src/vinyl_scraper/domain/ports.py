@@ -1,4 +1,4 @@
-"""Domain Ports (interfaces) following Dependency Inversion Principle (DIP)."""
+"""Portas de domínio (interfaces) seguindo o Princípio da Inversão de Dependência (DIP)."""
 
 from __future__ import annotations
 
@@ -9,52 +9,52 @@ from vinyl_scraper.domain.value_objects import ASIN, BlackFridayWindow, PriceSna
 
 
 class AmazonScraperPort(Protocol):
-    """Port for scraping vinyl editions from Amazon BR."""
+    """Porta para coleta de edições de vinil na Amazon BR."""
 
     def search_vinyl_editions(self, query: VinylQuery, max_pages: int = 2) -> list[ScrapedEdition]:
-        """Search Amazon BR for all vinyl editions matching `query`."""
+        """Busca na Amazon BR todas as edições em vinil correspondentes a `query`."""
         ...
 
 
 class PriceHistoryRepositoryPort(Protocol):
-    """Port for persisting and querying local price history snapshots."""
+    """Porta para persistência e consulta de snapshots locais de histórico de preços."""
 
     def save_snapshots(
         self,
         snapshots: list[PriceSnapshot],
         titles_by_asin: dict[str, tuple[str, str, str, str]],
     ) -> None:
-        """Persist new price snapshots and edition metadata."""
+        """Persiste novos snapshots de preço e metadados das edições."""
         ...
 
     def get_history(self, asin: ASIN) -> list[PriceSnapshot]:
-        """Retrieve all stored snapshots for an ASIN ordered by timestamp."""
+        """Recupera todos os snapshots armazenados de um ASIN ordenados por data."""
         ...
 
     def get_editions_for_query(self, query: VinylQuery) -> list[ScrapedEdition]:
-        """Retrieve latest known scraped editions for a query from local storage."""
+        """Recupera as edições coletadas mais recentes para uma busca no armazenamento local."""
         ...
 
 
 class ExternalPriceHistoryPort(Protocol):
-    """Port for optional external price trackers (e.g., Keepa API)."""
+    """Porta para rastreadores externos opcionais de preços (ex.: Keepa API)."""
 
     def fetch_history(self, asin: ASIN) -> list[PriceSnapshot]:
-        """Fetch historical price points from an external provider."""
+        """Busca pontos históricos de preço em um provedor externo."""
         ...
 
 
 class CatalogReaderPort(Protocol):
-    """Port for reading the input JSON vinyl wishlist."""
+    """Porta para leitura do catálogo JSON de discos desejados."""
 
     def load(self) -> tuple[BlackFridayWindow, list[VinylQuery]]:
-        """Return the configured BlackFridayWindow and list of VinylQuery items."""
+        """Retorna o BlackFridayWindow configurado e a lista de itens VinylQuery."""
         ...
 
 
 class ReportExporterPort(Protocol):
-    """Port for exporting the analyzed report."""
+    """Porta para exportação do relatório analisado."""
 
     def export(self, reports: list[AlbumSearchReport], window: BlackFridayWindow) -> str:
-        """Export reports and return the destination path or identifier."""
+        """Exporta os relatórios e retorna o caminho ou identificador de destino."""
         ...
