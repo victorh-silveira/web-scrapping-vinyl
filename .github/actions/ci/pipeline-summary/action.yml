@@ -2,6 +2,10 @@ name: Pipeline Summary
 description: Publica resumo da execucao dos jobs no GitHub Step Summary
 
 inputs:
+  commitlint:
+    required: false
+    default: "skipped"
+    type: string
   python:
     required: true
     type: string
@@ -23,7 +27,8 @@ runs:
           echo ""
           echo "| Job | Status |"
           echo "|---|---|"
-          echo "| Python (Lint, Validate, Security, Test, Build) | ${{ inputs.python }} |"
-          echo "| Workflows & Pre-commit | ${{ inputs.workflows }} |"
-          echo "| Semantic Release | ${{ inputs.release }} |"
+          echo "| CI - Commitlint | ${{ inputs.commitlint }} |"
+          echo "| CI - Python (Lint, Validate, Security, Test, Build) | ${{ inputs.python }} |"
+          echo "| CI - Workflows | ${{ inputs.workflows }} |"
+          echo "| CI - Release | ${{ inputs.release }} |"
         } >> "$GITHUB_STEP_SUMMARY"

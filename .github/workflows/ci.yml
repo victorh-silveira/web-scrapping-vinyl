@@ -1,4 +1,7 @@
-name: CI
+name: CI/CD - Pipeline principal
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 on:
   push:
@@ -10,6 +13,7 @@ on:
       - "linters/**"
       - "Makefile"
       - "README.md"
+      - "AGENTS.md"
       - "docs/**"
       - "pyproject.toml"
       - "scripts/**"
@@ -20,15 +24,51 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
+  commitlint:
+    name: CI - Commitlint
+    if: >-
+      ${{ github.event_name != 'push' || (github.event.head_commit != null &&
+      !contains(github.event.head_commit.message, 'Merge branch') &&
+      !contains(github.event.head_commit.message, 'merge origin/')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Obter codigo fonte
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Commitlint | Conventional Commits
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx --yes -p @commitlint/cli -p @commitlint/config-conventional \
+              commitlint --config linters/commitlint.config.mjs \
+              --from "origin/${{ github.base_ref }}" --to "HEAD" --verbose
+          else
+            git log -1 --pretty=format:"%B" | \
+              npx --yes -p @commitlint/cli -p @commitlint/config-conventional \
+              commitlint --config linters/commitlint.config.mjs --verbose
+          fi
+
   python:
-    name: CI - Python (Bidirecional Pre-commit)
+    name: CI - Python
+    if: >-
+      ${{ github.event_name != 'push' || (github.event.head_commit != null &&
+      !contains(github.event.head_commit.message, 'Merge branch') &&
+      !contains(github.event.head_commit.message, 'merge origin/')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -38,7 +78,7 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Setup Python e Dependencias
+      - name: Setup Python
         uses: ./.github/actions/ci/setup-python
 
       - name: Preparar PATH local
@@ -59,7 +99,9 @@ jobs:
         shell: bash
         run: |
           GITLEAKS_VERSION="8.24.2"
-          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+          GITLEAKS_URL="https://github.com/gitleaks/gitleaks/releases/download"
+          curl -sSL "${GITLEAKS_URL}/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            -o /tmp/gitleaks.tar.gz
           tar -xzf /tmp/gitleaks.tar.gz -C /tmp
           mv /tmp/gitleaks "$HOME/.local/bin/gitleaks"
           chmod +x "$HOME/.local/bin/gitleaks"
@@ -84,20 +126,33 @@ jobs:
         shell: bash
         run: python scripts/operations/clean_workspace.py --area python --stage build
 
+      - name: Limpeza (caches e artefatos locais)
+        shell: bash
+        run: python scripts/operations/clean_workspace.py --area python --stage clean --light-clean
+
   workflows:
-    name: CI - Workflows e Pre-commit
+    name: CI - Workflows
+    if: >-
+      ${{ github.event_name != 'push' || (github.event.head_commit != null &&
+      !contains(github.event.head_commit.message, 'Merge branch') &&
+      !contains(github.event.head_commit.message, 'merge origin/')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Obter codigo fonte
         uses: actions/checkout@v4
-      - name: Validar Pre-commit e Workflows
+      - name: Workflows | Lint
         uses: ./.github/actions/ci/workflows
 
   release:
     name: CI - Release
-    needs: [python, workflows]
-    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    needs: [commitlint, python, workflows]
+    if: >-
+      ${{ (github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.event.head_commit != null &&
+      !contains(github.event.head_commit.message, 'Merge branch') &&
+      !contains(github.event.head_commit.message, 'merge origin/'))) &&
+      github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -116,7 +171,7 @@ jobs:
 
   pipeline-summary:
     name: CI - Resumo
-    needs: [python, workflows, release]
+    needs: [commitlint, python, workflows, release]
     if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -126,6 +181,7 @@ jobs:
       - name: Resumo | Pipeline
         uses: ./.github/actions/ci/pipeline-summary
         with:
+          commitlint: ${{ needs.commitlint.result }}
           python: ${{ needs.python.result }}
           workflows: ${{ needs.workflows.result }}
           release: ${{ needs.release.result }}
