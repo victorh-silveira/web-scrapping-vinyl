@@ -19,12 +19,13 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
-        npx --yes \
-          -p semantic-release \
-          -p @semantic-release/commit-analyzer \
-          -p @semantic-release/release-notes-generator \
-          -p @semantic-release/changelog \
-          -p @semantic-release/git \
-          -p @semantic-release/github \
-          -p conventional-changelog-conventionalcommits \
-          semantic-release --extends ./linters/releaserc.json
+        SR_DIR="${{ runner.temp }}/semantic-release"
+        npm install --no-save --prefix "$SR_DIR" \
+          semantic-release \
+          @semantic-release/commit-analyzer \
+          @semantic-release/release-notes-generator \
+          @semantic-release/changelog \
+          @semantic-release/git \
+          @semantic-release/github \
+          conventional-changelog-conventionalcommits
+        NODE_PATH="$SR_DIR/node_modules" "$SR_DIR/node_modules/.bin/semantic-release" --extends ./linters/releaserc.json
