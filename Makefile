@@ -29,7 +29,7 @@ help:
 	@echo -e "$(YELLOW)Python:$(RESET) $(PYTHON)"
 	@echo -e ""
 	@echo -e "$(YELLOW)App:$(RESET)"
-	@echo -e "  $(GREEN)app-install$(RESET)          - Instala dependencias (pyproject.toml + dev + Playwright)"
+	@echo -e "  $(GREEN)app-install$(RESET)          - Instala dependencias (requirements.txt + requirements-dev.txt + Playwright)"
 	@echo -e "  $(GREEN)app-run$(RESET)              - Executa busca e analise (ARGS='--input data/vinyls.example.json')"
 	@echo -e "  $(GREEN)app-setup$(RESET)            - Install + hook commit-msg (crash-first)"
 	@echo -e "  $(GREEN)app-clean$(RESET)            - Limpa caches e artefatos locais"
@@ -46,7 +46,8 @@ help:
 
 app-install:
 	$(PYTHON) -m pip install --upgrade pip
-	$(PYTHON) -m pip install -e ".[dev]"
+	$(PYTHON) -m pip install -r requirements.txt -r requirements-dev.txt
+	$(PYTHON) -m pip install -e . --no-deps
 	$(PYTHON) -m playwright install chromium
 
 app-run:

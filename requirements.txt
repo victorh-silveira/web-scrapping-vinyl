@@ -1,0 +1,8 @@
+# ---- SCRAPING & PARSING HTML ----
+playwright==1.65.2             # Automação de navegador Chromium (headless/headed) para coleta dinâmica na Amazon BR
+beautifulsoup4==4.15.0         # Parser HTML estruturado para extração de cards de produtos, preços e avaliações
+lxml==6.1.3                    # Parser XML/HTML de alta performance em C usado como backend pelo BeautifulSoup
+
+# ---- CLI & INTERFACE DE TERMINAL ----
+typer==0.29.1                  # Framework de linha de comando (CLI) baseado em type hints para os comandos run e analyze
+rich==15.0.0                   # Renderização de tabelas comparativas, barras de progresso e logs coloridos no terminal
