@@ -19,6 +19,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
+        git fetch origin "+refs/notes/*:refs/notes/*" || true
         SR_DIR="${{ runner.temp }}/semantic-release"
         npm install --no-save --prefix "$SR_DIR" \
           semantic-release \
