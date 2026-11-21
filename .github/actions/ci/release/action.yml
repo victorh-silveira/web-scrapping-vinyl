@@ -10,9 +10,9 @@ runs:
   using: composite
   steps:
     - name: Configurar Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
       with:
-        node-version: "22"
+        node-version: "24"
 
     - name: Executar Semantic Release
       shell: bash

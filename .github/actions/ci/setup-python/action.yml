@@ -5,7 +5,7 @@ runs:
   using: composite
   steps:
     - name: Configurar Python 3.13
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version-file: ".python-version"
         cache: pip

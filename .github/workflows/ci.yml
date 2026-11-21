@@ -41,14 +41,14 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Obter codigo fonte
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Commitlint | Conventional Commits
         shell: bash
@@ -73,7 +73,7 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Obter codigo fonte
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -89,16 +89,16 @@ jobs:
 
       - name: Cache Gitleaks
         id: cache-gitleaks
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.local/bin/gitleaks
-          key: gitleaks-8.24.2-linux-x64
+          key: gitleaks-8.30.1-linux-x64
 
       - name: Instalar Gitleaks
         if: steps.cache-gitleaks.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          GITLEAKS_VERSION="8.24.2"
+          GITLEAKS_VERSION="8.30.1"
           GITLEAKS_URL="https://github.com/gitleaks/gitleaks/releases/download"
           curl -sSL "${GITLEAKS_URL}/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
             -o /tmp/gitleaks.tar.gz
@@ -140,7 +140,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Obter codigo fonte
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Workflows | Lint
         uses: ./.github/actions/ci/workflows
 
@@ -160,7 +160,7 @@ jobs:
       issues: write
     steps:
       - name: Obter codigo fonte
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -177,7 +177,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Obter codigo fonte
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Resumo | Pipeline
         uses: ./.github/actions/ci/pipeline-summary
         with:
