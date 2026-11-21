@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/victorh-silveira/web-scrapping-vinyl/compare/v1.0.1...v1.0.2) (2026-11-21)
+
+### Build e Dependências
+
+* **deps:** atualiza dependencias Python, GitHub Actions, Node 24 e Gitleaks ([ab2a6ab](https://github.com/victorh-silveira/web-scrapping-vinyl/commit/ab2a6ab3f9313069c809561a267ee6072b873dd9))
+
 ## [1.0.1](https://github.com/victorh-silveira/web-scrapping-vinyl/compare/v1.0.0...v1.0.1) (2026-11-17)
 
 ### Build e Dependências
